@@ -1,5 +1,0 @@
-{
-  "customerId": "string",
-  "orderDate": "date",
-  "amount": "number"
-}
