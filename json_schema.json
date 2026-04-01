@@ -1,102 +1,144 @@
 
 {
-  "submission": {
-    "submissionId": "SUB-2026-0001",
-    "broker": {
-      "name": "WTW Cyber Brokerage",
-      "email": "cyber.broker@wtw.com"
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/cyber-policy-mvp.json",
+  "title": "Cyber Policy MVP",
+  "type": "object",
+  "required": [
+    "submission",
+    "client",
+    "risk",
+    "options"
+  ],
+  "properties": {
+
+    "submission": {
+      "type": "object",
+      "required": ["submissionId", "broker", "carrier"],
+      "properties": {
+        "submissionId": {
+          "type": "string",
+          "description": "Unique submission identifier"
+        },
+        "broker": {
+          "type": "object",
+          "required": ["name", "email"],
+          "properties": {
+            "name": { "type": "string" },
+            "email": { "type": "string", "format": "email" }
+          }
+        },
+        "carrier": {
+          "type": "string",
+          "description": "Selected carrier name"
+        }
+      }
     },
-    "carrier": "Example Cyber Insurance Co"
-  },
 
-  "client": {
-    "name": "Acme Technologies Inc",
-    "industry": "Technology",
-    "country": "US",
-    "employees": 250,
-    "revenue": {
-      "amount": 25000000,
-      "currency": "USD"
-    }
-  },
-
-  "risk": {
-    "priorClaims": false,
-    "cyberControls": {
-      "mfa": true,
-      "endpointProtection": true,
-      "backups": "Daily"
-    }
-  },
-
-  "options": [
-    {
-      "optionId": "OPTION-A",
-      "premium": {
-        "amount": 42000,
-        "currency": "USD"
-      },
-      "deductible": {
-        "amount": 50000,
-        "currency": "USD"
-      },
-      "coverages": [
-        {
-          "type": "DataNetworkSecurity",
-          "limit": {
-            "amount": 2000000,
-            "currency": "USD"
-          }
+    "client": {
+      "type": "object",
+      "required": ["name", "industry", "country", "revenue"],
+      "properties": {
+        "name": { "type": "string" },
+        "industry": {
+          "type": "string",
+          "description": "High-level industry (e.g. Technology, Healthcare)"
         },
-        {
-          "type": "IncidentResponse",
-          "limit": {
-            "amount": 1000000,
-            "currency": "USD"
-          }
+        "country": { "type": "string" },
+        "employees": {
+          "type": "integer",
+          "minimum": 1
         },
-        {
-          "type": "CyberExtortion",
-          "limit": {
-            "amount": 500000,
-            "currency": "USD"
+        "revenue": {
+          "type": "object",
+          "required": ["amount", "currency"],
+          "properties": {
+            "amount": { "type": "number", "minimum": 1 },
+            "currency": { "type": "string" }
           }
         }
-      ]
+      }
     },
-    {
-      "optionId": "OPTION-B",
-      "premium": {
-        "amount": 58000,
-        "currency": "USD"
-      },
-      "deductible": {
-        "amount": 25000,
-        "currency": "USD"
-      },
-      "coverages": [
-        {
-          "type": "DataNetworkSecurity",
-          "limit": {
-            "amount": 5000000,
-            "currency": "USD"
-          }
+
+    "risk": {
+      "type": "object",
+      "required": ["priorClaims", "cyberControls"],
+      "properties": {
+        "priorClaims": {
+          "type": "boolean",
+          "description": "Any prior cyber claims?"
         },
-        {
-          "type": "IncidentResponse",
-          "limit": {
-            "amount": 2000000,
-            "currency": "USD"
-          }
-        },
-        {
-          "type": "BusinessInterruption",
-          "limit": {
-            "amount": 1500000,
-            "currency": "USD"
+        "cyberControls": {
+          "type": "object",
+          "required": ["mfa", "endpointProtection", "backups"],
+          "properties": {
+            "mfa": { "type": "boolean" },
+            "endpointProtection": { "type": "boolean" },
+            "backups": {
+              "type": "string",
+              "enum": ["None", "Weekly", "Daily"]
+            }
           }
         }
-      ]
+      }
+    },
+
+    "options": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["optionId", "premium", "deductible", "coverages"],
+        "properties": {
+          "optionId": { "type": "string" },
+
+          "premium": {
+            "type": "object",
+            "required": ["amount", "currency"],
+            "properties": {
+              "amount": { "type": "number", "minimum": 1 },
+              "currency": { "type": "string" }
+            }
+          },
+
+          "deductible": {
+            "type": "object",
+            "required": ["amount", "currency"],
+            "properties": {
+              "amount": { "type": "number", "minimum": 0 },
+              "currency": { "type": "string" }
+            }
+          },
+
+          "coverages": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["type", "limit"],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "DataNetworkSecurity",
+                    "IncidentResponse",
+                    "CyberExtortion",
+                    "BusinessInterruption"
+                  ]
+                },
+                "limit": {
+                  "type": "object",
+                  "required": ["amount", "currency"],
+                  "properties": {
+                    "amount": { "type": "number", "minimum": 1 },
+                    "currency": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
-  ]
+  }
 }
