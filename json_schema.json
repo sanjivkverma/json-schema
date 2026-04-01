@@ -1,0 +1,102 @@
+
+{
+  "submission": {
+    "submissionId": "SUB-2026-0001",
+    "broker": {
+      "name": "WTW Cyber Brokerage",
+      "email": "cyber.broker@wtw.com"
+    },
+    "carrier": "Example Cyber Insurance Co"
+  },
+
+  "client": {
+    "name": "Acme Technologies Inc",
+    "industry": "Technology",
+    "country": "US",
+    "employees": 250,
+    "revenue": {
+      "amount": 25000000,
+      "currency": "USD"
+    }
+  },
+
+  "risk": {
+    "priorClaims": false,
+    "cyberControls": {
+      "mfa": true,
+      "endpointProtection": true,
+      "backups": "Daily"
+    }
+  },
+
+  "options": [
+    {
+      "optionId": "OPTION-A",
+      "premium": {
+        "amount": 42000,
+        "currency": "USD"
+      },
+      "deductible": {
+        "amount": 50000,
+        "currency": "USD"
+      },
+      "coverages": [
+        {
+          "type": "DataNetworkSecurity",
+          "limit": {
+            "amount": 2000000,
+            "currency": "USD"
+          }
+        },
+        {
+          "type": "IncidentResponse",
+          "limit": {
+            "amount": 1000000,
+            "currency": "USD"
+          }
+        },
+        {
+          "type": "CyberExtortion",
+          "limit": {
+            "amount": 500000,
+            "currency": "USD"
+          }
+        }
+      ]
+    },
+    {
+      "optionId": "OPTION-B",
+      "premium": {
+        "amount": 58000,
+        "currency": "USD"
+      },
+      "deductible": {
+        "amount": 25000,
+        "currency": "USD"
+      },
+      "coverages": [
+        {
+          "type": "DataNetworkSecurity",
+          "limit": {
+            "amount": 5000000,
+            "currency": "USD"
+          }
+        },
+        {
+          "type": "IncidentResponse",
+          "limit": {
+            "amount": 2000000,
+            "currency": "USD"
+          }
+        },
+        {
+          "type": "BusinessInterruption",
+          "limit": {
+            "amount": 1500000,
+            "currency": "USD"
+          }
+        }
+      ]
+    }
+  ]
+}
