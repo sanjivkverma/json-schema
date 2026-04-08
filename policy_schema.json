@@ -1,0 +1,144 @@
+
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/cyber-policy-mvp.json",
+  "title": "Cyber Policy MVP",
+  "type": "object",
+  "required": [
+    "submission",
+    "client",
+    "risk",
+    "options"
+  ],
+  "properties": {
+
+    "submission": {
+      "type": "object",
+      "required": ["submissionId", "broker", "carrier"],
+      "properties": {
+        "submissionId": {
+          "type": "string",
+          "description": "Unique submission identifier"
+        },
+        "broker": {
+          "type": "object",
+          "required": ["name", "email"],
+          "properties": {
+            "name": { "type": "string" },
+            "email": { "type": "string", "format": "email" }
+          }
+        },
+        "carrier": {
+          "type": "string",
+          "description": "Selected carrier name"
+        }
+      }
+    },
+
+    "client": {
+      "type": "object",
+      "required": ["name", "industry", "country", "revenue"],
+      "properties": {
+        "name": { "type": "string" },
+        "industry": {
+          "type": "string",
+          "description": "High-level industry (e.g. Technology, Healthcare)"
+        },
+        "country": { "type": "string" },
+        "employees": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "revenue": {
+          "type": "object",
+          "required": ["amount", "currency"],
+          "properties": {
+            "amount": { "type": "number", "minimum": 1 },
+            "currency": { "type": "string" }
+          }
+        }
+      }
+    },
+
+    "risk": {
+      "type": "object",
+      "required": ["priorClaims", "cyberControls"],
+      "properties": {
+        "priorClaims": {
+          "type": "boolean",
+          "description": "Any prior cyber claims?"
+        },
+        "cyberControls": {
+          "type": "object",
+          "required": ["mfa", "endpointProtection", "backups"],
+          "properties": {
+            "mfa": { "type": "boolean" },
+            "endpointProtection": { "type": "boolean" },
+            "backups": {
+              "type": "string",
+              "enum": ["None", "Weekly", "Daily"]
+            }
+          }
+        }
+      }
+    },
+
+    "options": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["optionId", "premium", "deductible", "coverages"],
+        "properties": {
+          "optionId": { "type": "string" },
+
+          "premium": {
+            "type": "object",
+            "required": ["amount", "currency"],
+            "properties": {
+              "amount": { "type": "number", "minimum": 1 },
+              "currency": { "type": "string" }
+            }
+          },
+
+          "deductible": {
+            "type": "object",
+            "required": ["amount", "currency"],
+            "properties": {
+              "amount": { "type": "number", "minimum": 0 },
+              "currency": { "type": "string" }
+            }
+          },
+
+          "coverages": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["type", "limit"],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "DataNetworkSecurity",
+                    "IncidentResponse",
+                    "CyberExtortion",
+                    "BusinessInterruption"
+                  ]
+                },
+                "limit": {
+                  "type": "object",
+                  "required": ["amount", "currency"],
+                  "properties": {
+                    "amount": { "type": "number", "minimum": 1 },
+                    "currency": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
